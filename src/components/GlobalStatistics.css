@@ -1,0 +1,11 @@
+.layout{
+    color :brown;
+    background-color: cornsilk;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.header {
+    color :brown;
+
+}
