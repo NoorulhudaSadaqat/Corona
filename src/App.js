@@ -12,7 +12,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/" />
-          <Route path="/Global" component={GlobalStatisticsView} />
+          <Route exact path="/Global" component={GlobalStatisticsView} />
           <Route exact path="/Country" component={CountryStatisticsView} />
         </Switch>
       </BrowserRouter>

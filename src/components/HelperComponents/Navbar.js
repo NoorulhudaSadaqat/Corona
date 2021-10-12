@@ -2,7 +2,7 @@ import "antd/dist/antd.css";
 import { Layout } from "antd";
 import { Menu } from 'antd';
 import { Row, Col} from "antd";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { Button } from 'antd';
 //import { Icon } from '@ant-design/icons';
 //import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
