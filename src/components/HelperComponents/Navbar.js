@@ -37,7 +37,7 @@ const countryButton=()=>{
                         theme="dark"
                         mode="horizontal"
                         defaultSelectedKeys={["1"]}
-                        style={{ lineHeight: '64px' }}
+                        style={{ lineHeight: '64px', width : '100vh' }}
                         breakpoint="lg"
                         collapsedWidth="0"
                     >
