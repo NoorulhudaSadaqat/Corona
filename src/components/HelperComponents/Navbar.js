@@ -1,63 +1,63 @@
-import "antd/dist/antd.css";
-import { Layout } from "antd";
-import { Menu } from 'antd';
-import { Row, Col} from "antd";
-import { useHistory } from 'react-router';
-import { Button } from 'antd';
-//import { Icon } from '@ant-design/icons';
-//import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
-const { Header} = Layout;
+import { useHistory } from "react-router";
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+  logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(8),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}));
 
 function Navbar() {
-  const history = useHistory()
-  const homeButton=()=>{
-      history.replace('/')
-  }
-  const globalButton=()=>{
-    if(history.location.pathname==="/")
-    history.push('/Global')
-    else if(history.location.pathname==="/Global")
-    return
-    else if (history.location.pathname==="/Country")
-    history.replace('/Global')
-}
-const countryButton=()=>{
-    if(history.location.pathname==="/")
-    history.push('/Global')
-    else if(history.location.pathname==="/Global")
-    history.replace('/Country')
-    else if (history.location.pathname==="/Country")
-    return
-}
-    return (
-        <div>
-            <Layout>
-                <Header>
-                <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        defaultSelectedKeys={["1"]}
-                        style={{ lineHeight: '64px', width : '100vh' }}
-                        breakpoint="lg"
-                        collapsedWidth="0"
-                    >
-
-                        <Row key="1" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                            <Col span={12} key="1">
-                                <Menu.Item key="1"><Button onClick={homeButton}>World of Corona</Button></Menu.Item>
-                            </Col>
-                            <Col span={6} key="2">
-                                <Menu.Item key="2"><Button onClick={globalButton}>Global Statistics</Button></Menu.Item>
-                            </Col>
-                            <Col span={6} key="3">
-                                <Menu.Item key="3"><Button onClick={countryButton}>Contry Wise Statistics</Button></Menu.Item>
-                            </Col>
-                        </Row>
-                    </Menu>
-                    </Header>
-            </Layout>
-        </div>
-    )
+  const history = useHistory();
+  const classes = useStyles();
+  const homeButton = () => {
+    history.replace("/");
+  };
+  return (
+    <div>
+      <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography
+            variant="h4"
+            className={classes.logo}
+            onClick={() => homeButton()}
+          >
+            Corono++
+          </Typography>
+          <div className={classes.navlinks}>
+            <Link to="/Global" className={classes.link}>
+              Global
+            </Link>
+            <Link to="/Country" className={classes.link}>
+              Country Wise
+            </Link>
+          </div>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
 
-export default Navbar
+export default Navbar;

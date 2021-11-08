@@ -1,33 +1,48 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import { Menu, Dropdown, Button } from "antd";
 import { Table, Tag, Space } from "antd";
 import { Select } from "antd";
 import { Input } from "antd";
 
+import {
+  getAllDataMiddleware,
+  getSpecificCountryMiddleware,
+} from "../actions/index";
+import { useDispatch, useSelector } from "react-redux";
+
 function CountryStatistics() {
   const { Option } = Select;
   const { Search } = Input;
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const allData = useSelector((state) => state.data.allCountries);
+  const specificCountry = useSelector((state) => state.data.specificCountry);
   const [option, setOption] = useState("");
-  const [originalData,setOrginalData]=useState([])
+  const [name, setName] = useState("");
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          `https://corona.lmao.ninja/v2/countries?yesterday=&sort=${option}`
-        );
-        setData(response.data);
-        setOrginalData(response.data);
-        console.log("Response after sorting :" + response.data);
-      } catch {
-        console.log("data nhi arha bhai sahb!");
-      }
-    }
-    fetchData();
+    setData(allData);
+  });
+  useEffect(() => {
+    dispatch(getAllDataMiddleware(option));
   }, [option]);
+
+  useEffect(() => {
+    dispatch(getSpecificCountryMiddleware(name));
+    setData([specificCountry]);
+    console.log("specific country :", specificCountry);
+    console.log("data now :", data);
+  }, [name]);
+
+  // console.log("specificCountry", specificCountry);
+  function handleOptionChange(value) {
+    setOption(value);
+  }
+  const handleNameChange = (value) => {
+    setName(value);
+  };
+
   const columns = [
     {
       title: "updated",
@@ -140,29 +155,6 @@ function CountryStatistics() {
       key: "criticalPerOneMillion",
     },
   ];
-  function handleOptionChange(value) {
-    console.log("value", value);
-    setOption(value);
-  }
-  const handleNameChange = async (event) => {
-    const name=event.target.value+"";
-    console.log("length",name.length);
-    const responseData = await axios.get(
-        `https://corona.lmao.ninja/v2/countries/${name}`
-    ).then((res) => {
-        console.log('res', res)
-        const array = [res.data]
-        setData(array)
-    }).catch(err => {
-        console.log(err)
-        setData(data)
-    })
-    if(name.length===0){
-        console.log("Original data :",originalData)
-        setData(originalData)
-        console.log("data",data)
-    }
-  }
   return (
     <div>
       <Select
@@ -182,10 +174,14 @@ function CountryStatistics() {
       </Select>
       <Search
         placeholder="search by name"
-        onChange={handleNameChange}
+        onChange={(e) => handleNameChange(e.target.value)}
         style={{ width: 200 }}
       />
-      <Table dataSource={data} columns={columns} />
+      <Table
+        dataSource={name.length !== 0 ? [specificCountry] : allData}
+        // dataSource={data}
+        columns={columns}
+      />
     </div>
   );
 }
